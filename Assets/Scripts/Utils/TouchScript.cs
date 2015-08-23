@@ -69,22 +69,34 @@ public class TouchScript : MonoBehaviour {
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
                 if (manager.CanPlayerAttackThere((int)Mathf.Floor(transform.position.x), (int)Mathf.Floor(transform.position.y) + 1))
+                {
                     manager.AttackItem((int)Mathf.Floor(transform.position.x), (int)Mathf.Floor(transform.position.y) + 1);
+                    GetComponent<PlayerScript>().AttackTween(0);
+                }
             }
             else if (Input.GetKeyDown(KeyCode.DownArrow))
             {
                 if (manager.CanPlayerAttackThere((int)Mathf.Floor(transform.position.x), (int)Mathf.Floor(transform.position.y) - 1))
+                {
                     manager.AttackItem((int)Mathf.Floor(transform.position.x), (int)Mathf.Floor(transform.position.y) - 1);
+                    GetComponent<PlayerScript>().AttackTween(0);
+                }
             }
             else if (Input.GetKeyDown(KeyCode.LeftArrow))
             {
                 if (manager.CanPlayerAttackThere((int)Mathf.Floor(transform.position.x) - 1, (int)Mathf.Floor(transform.position.y)))
+                {
                     manager.AttackItem((int)Mathf.Floor(transform.position.x) - 1, (int)Mathf.Floor(transform.position.y));
+                    GetComponent<PlayerScript>().AttackTween(1);
+                }
             }
             else if (Input.GetKeyDown(KeyCode.RightArrow))
             {
                 if (manager.CanPlayerAttackThere((int)Mathf.Floor(transform.position.x) + 1, (int)Mathf.Floor(transform.position.y)))
+                {
                     manager.AttackItem((int)Mathf.Floor(transform.position.x) + 1, (int)Mathf.Floor(transform.position.y));
+                    GetComponent<PlayerScript>().AttackTween(1);
+                }
             }
         }
 	}

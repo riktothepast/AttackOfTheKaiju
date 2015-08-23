@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Prime31.ZestKit;
 
 public class PlayerScript : MonoBehaviour {
     public float movementSpeed;
@@ -59,5 +60,18 @@ public class PlayerScript : MonoBehaviour {
         whereToMove = trans;
         shouldMove = true;
         canMove = false;
+    }
+
+    public void AttackTween(int dir)
+    {
+        if(dir ==0)
+            transform.ZKpositionTo(transform.position + new Vector3(0, Random.Range(-0.5f, 0.5f), 0), 0.1f)
+                .setLoops(LoopType.PingPong)
+                .start();
+
+        if (dir == 1)
+            transform.ZKpositionTo(transform.position + new Vector3(Random.Range(-0.5f, 0.5f), 0,0), 0.1f)
+                .setLoops(LoopType.PingPong)
+                .start();
     }
 }
