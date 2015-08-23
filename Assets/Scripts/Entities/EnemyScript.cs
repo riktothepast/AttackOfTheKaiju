@@ -15,6 +15,11 @@ public class EnemyScript : MonoBehaviour
 
     }
 
+    public virtual void ActivateUpdate()
+    { 
+        
+    }
+
     public virtual void Update()
     {
         if (shouldMove)

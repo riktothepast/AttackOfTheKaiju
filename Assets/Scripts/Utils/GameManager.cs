@@ -30,7 +30,10 @@ public class GameManager : MonoBehaviour {
 
     public void SetToUpdateEntities()
     {
-
+        for (int x = 0; x < enemies.Count; x++)
+        {
+            enemies[x].GetComponent<EnemyScript>().ActivateUpdate();
+        }
     }
 
     void GenerateNewBuildingsAtRandomPositions(int builings)
@@ -52,6 +55,7 @@ public class GameManager : MonoBehaviour {
             Vector2 newPos = GetEmptyPosition(0, board.Columns, board.Rows-2, board.Rows);
             board.logicMap[(int)newPos.x, (int)newPos.y] = 2;
             GameObject enemy = (GameObject)Instantiate(enemies[Random.Range(0, enemies.Count)], new Vector2((int)newPos.x + 0.5f, (int)newPos.y + 0.5f), transform.rotation);
+            enemies.Add(enemy);
         }
     }
 
@@ -155,6 +159,7 @@ public class GameManager : MonoBehaviour {
             if ((int)Mathf.Floor(buildings[x].transform.position.x) == (int)posX && (int)Mathf.Floor(buildings[x].transform.position.y) == (int)posY)
             {
                 buildings[x].GetComponent<Building>().DoDamage(player.damage);
+                SetToUpdateEntities();
                 break;
             }
         }

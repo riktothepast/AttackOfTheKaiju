@@ -62,6 +62,7 @@ public class PlayerScript : MonoBehaviour {
         whereToMove = trans;
         shouldMove = true;
         canMove = false;
+        manager.SetToUpdateEntities();
     }
 
     public void AttackTween(int dir)
