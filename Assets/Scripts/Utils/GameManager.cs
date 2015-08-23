@@ -7,8 +7,10 @@ using Game.TileMapping.Unity;
 public class GameManager : MonoBehaviour {
 
     public int buidingsToDestroy = 5;
+    public int maxEnemies = 2;
     TileMap board;
     public List<GameObject> buildings;
+    public List<GameObject> enemies;
     public GameObject playerToSpawn;
     PlayerScript player;
     public Text buildingsText, enemiesText;
@@ -17,6 +19,7 @@ public class GameManager : MonoBehaviour {
 	void Start () {
         board = GameObject.FindGameObjectWithTag("Map").GetComponent<TileMap>();
         GenerateNewBuildingsAtRandomPositions(buidingsToDestroy);
+        GenerateNewEnemies(maxEnemies);
         SpawnPlayer();
 	}
 	
@@ -25,6 +28,11 @@ public class GameManager : MonoBehaviour {
 	
 	}
 
+    public void SetToUpdateEntities()
+    {
+
+    }
+
     void GenerateNewBuildingsAtRandomPositions(int builings)
     {
         for (int x = 0; x < builings; x++)
@@ -32,8 +40,18 @@ public class GameManager : MonoBehaviour {
             Vector2 newPos = GetEmptyPosition(0, board.Columns, 0, board.Rows);
             board.logicMap[(int)newPos.x, (int)newPos.y] = 2;
             GameObject building = (GameObject)Instantiate(buildings[Random.Range(0, buildings.Count)], new Vector2((int)newPos.x + 0.5f, (int)newPos.y + 0.5f), transform.rotation);
-            building.GetComponent<SpriteRenderer>().sortingOrder += board.Rows - (int)newPos.y;
+            building.GetComponent<SpriteRenderer>().sortingOrder = board.Rows - (int)Mathf.Ceil(newPos.y);
             buildings.Add(building);
+        }
+    }
+
+    void GenerateNewEnemies(int maxEnemies)
+    {
+        for (int x = 0; x < maxEnemies; x++)
+        {
+            Vector2 newPos = GetEmptyPosition(0, board.Columns, board.Rows-2, board.Rows);
+            board.logicMap[(int)newPos.x, (int)newPos.y] = 2;
+            GameObject enemy = (GameObject)Instantiate(enemies[Random.Range(0, enemies.Count)], new Vector2((int)newPos.x + 0.5f, (int)newPos.y + 0.5f), transform.rotation);
         }
     }
 
@@ -67,6 +85,8 @@ public class GameManager : MonoBehaviour {
          *        [] P []
          *          [] 
          */
+        if (x < 0 || x > board.Columns || y < 0 || y > board.Rows)
+            return false;
         if (board.logicMap[x, y] != 0)
             return false;
 
@@ -97,6 +117,8 @@ public class GameManager : MonoBehaviour {
 
     public bool CanPlayerAttackThere(int x, int y)
     {
+        if (x < 0 || x > board.Columns || y < 0 || y > board.Rows)
+            return false;
         if (board.logicMap[x, y] == 0)
             return false;
 
@@ -144,4 +166,5 @@ public class GameManager : MonoBehaviour {
         buildings.Remove(obj);
         buildingsText.text = "Buildings: \n" + builingCount.ToString("D2");
     }
+
 }

@@ -9,10 +9,12 @@ public class PlayerScript : MonoBehaviour {
     bool shouldMove;
     public bool canMove = true;
     Animator anim;
+    GameManager manager;
 
     void Start()
     {
         anim = GetComponent<Animator>();
+        manager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
     }
 
     void Update()

@@ -20,7 +20,7 @@ public class Building : MonoBehaviour {
         LifePoints -= val;
         transform.ZKpositionTo(transform.position + new Vector3(Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f), 0), 0.1f)
         .setLoops(LoopType.PingPong)
-        .setLoopCompletionHandler(t => { 
+        .setCompletionHandler(t => { 
         if (LifePoints <= 0)
         {
             manager.UpdateBuildingCount(gameObject);
@@ -28,9 +28,7 @@ public class Building : MonoBehaviour {
             Instantiate(damageSprite,transform.position,transform.rotation);
             Destroy(this.gameObject);
         }
-        })
-                            .start();
-
+        }).start();
 
     }
 }
