@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Game.TileMapping.Unity;
 
 public class EnemyScript : MonoBehaviour
 {
@@ -8,6 +9,8 @@ public class EnemyScript : MonoBehaviour
     public Vector2 whereToMove;
     public bool shouldMove;
     public bool canMove = true;
+    public PlayerScript Player;
+    public TileMap board;
 
     // Use this for initialization
     public virtual void Start()

@@ -29,7 +29,7 @@ public class TouchScript : MonoBehaviour {
                 {
                     if (hit.collider.CompareTag("Building"))
                     {
-                        if (manager.CanPlayerAttackThere((int)Mathf.Floor(hit.collider.transform.position.x), (int)Mathf.Floor(hit.collider.transform.position.y)))
+                        if (pScript.CanPlayerAttackThere((int)Mathf.Floor(hit.collider.transform.position.x), (int)Mathf.Floor(hit.collider.transform.position.y)))
                             hit.collider.GetComponent<Building>().DoDamage(pScript.damage);
                         else
                             Debug.Log("cant attack there");
@@ -37,7 +37,7 @@ public class TouchScript : MonoBehaviour {
                     }
                     if (hit.collider.CompareTag("Tile"))
                     {
-                        if (manager.CanPlayerMoveThere((int)Mathf.Floor(hit.collider.transform.position.x), (int)Mathf.Floor(hit.collider.transform.position.y)))
+                        if (pScript.CanPlayerMoveThere((int)Mathf.Floor(hit.collider.transform.position.x), (int)Mathf.Floor(hit.collider.transform.position.y)))
                             pScript.SetToMove(hit.collider.transform.position);
                         else
                             Debug.Log("cant move there");
@@ -47,55 +47,55 @@ public class TouchScript : MonoBehaviour {
             }
             if (Input.GetKey(KeyCode.UpArrow))
             {
-                if (manager.CanPlayerMoveThere((int)Mathf.Floor(transform.position.x), (int)Mathf.Floor(transform.position.y) + 1))
+                if (pScript.CanPlayerMoveThere((int)Mathf.Floor(transform.position.x), (int)Mathf.Floor(transform.position.y) + 1))
                     pScript.SetToMove(new Vector2((transform.position.x), (transform.position.y) + 1));
             }
             else if (Input.GetKey(KeyCode.DownArrow))
             {
-                if (manager.CanPlayerMoveThere((int)Mathf.Floor(transform.position.x), (int)Mathf.Floor(transform.position.y) - 1))
+                if (pScript.CanPlayerMoveThere((int)Mathf.Floor(transform.position.x), (int)Mathf.Floor(transform.position.y) - 1))
                     pScript.SetToMove(new Vector2((transform.position.x), (transform.position.y) - 1));
             }
             else if (Input.GetKey(KeyCode.LeftArrow))
             {
-                if (manager.CanPlayerMoveThere((int)Mathf.Floor(transform.position.x) - 1, (int)Mathf.Floor(transform.position.y)))
+                if (pScript.CanPlayerMoveThere((int)Mathf.Floor(transform.position.x) - 1, (int)Mathf.Floor(transform.position.y)))
                     pScript.SetToMove(new Vector2((transform.position.x) - 1, (transform.position.y)));
             }
             else if (Input.GetKey(KeyCode.RightArrow))
             {
-                if (manager.CanPlayerMoveThere((int)Mathf.Floor(transform.position.x) + 1, (int)Mathf.Floor(transform.position.y)))
+                if (pScript.CanPlayerMoveThere((int)Mathf.Floor(transform.position.x) + 1, (int)Mathf.Floor(transform.position.y)))
                     pScript.SetToMove(new Vector2((transform.position.x) + 1, (transform.position.y)));
             }
 
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
-                if (manager.CanPlayerAttackThere((int)Mathf.Floor(transform.position.x), (int)Mathf.Floor(transform.position.y) + 1))
+                if (pScript.CanPlayerAttackThere((int)Mathf.Floor(transform.position.x), (int)Mathf.Floor(transform.position.y) + 1))
                 {
                     manager.AttackItem((int)Mathf.Floor(transform.position.x), (int)Mathf.Floor(transform.position.y) + 1);
-                    GetComponent<PlayerScript>().AttackTween(0);
+                    pScript.AttackTween(0);
                 }
             }
             else if (Input.GetKeyDown(KeyCode.DownArrow))
             {
-                if (manager.CanPlayerAttackThere((int)Mathf.Floor(transform.position.x), (int)Mathf.Floor(transform.position.y) - 1))
+                if (pScript.CanPlayerAttackThere((int)Mathf.Floor(transform.position.x), (int)Mathf.Floor(transform.position.y) - 1))
                 {
                     manager.AttackItem((int)Mathf.Floor(transform.position.x), (int)Mathf.Floor(transform.position.y) - 1);
-                    GetComponent<PlayerScript>().AttackTween(0);
+                    pScript.AttackTween(0);
                 }
             }
             else if (Input.GetKeyDown(KeyCode.LeftArrow))
             {
-                if (manager.CanPlayerAttackThere((int)Mathf.Floor(transform.position.x) - 1, (int)Mathf.Floor(transform.position.y)))
+                if (pScript.CanPlayerAttackThere((int)Mathf.Floor(transform.position.x) - 1, (int)Mathf.Floor(transform.position.y)))
                 {
                     manager.AttackItem((int)Mathf.Floor(transform.position.x) - 1, (int)Mathf.Floor(transform.position.y));
-                    GetComponent<PlayerScript>().AttackTween(1);
+                    pScript.AttackTween(1);
                 }
             }
             else if (Input.GetKeyDown(KeyCode.RightArrow))
             {
-                if (manager.CanPlayerAttackThere((int)Mathf.Floor(transform.position.x) + 1, (int)Mathf.Floor(transform.position.y)))
+                if (pScript.CanPlayerAttackThere((int)Mathf.Floor(transform.position.x) + 1, (int)Mathf.Floor(transform.position.y)))
                 {
                     manager.AttackItem((int)Mathf.Floor(transform.position.x) + 1, (int)Mathf.Floor(transform.position.y));
-                    GetComponent<PlayerScript>().AttackTween(1);
+                    pScript.AttackTween(1);
                 }
             }
         }

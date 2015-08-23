@@ -18,7 +18,7 @@ public class Building : MonoBehaviour {
     public void DoDamage(int val)
     {
         LifePoints -= val;
-        transform.ZKpositionTo(transform.position + new Vector3(Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f), 0), 0.1f)
+        transform.ZKpositionTo(transform.position + new Vector3(Random.Range(Random.Range(-0.5f, -0.3f), Random.Range(0.3f, 0.5f)), Random.Range(Random.Range(-0.5f, -0.3f), Random.Range(0.3f, 0.5f)), 0), 0.1f)
         .setLoops(LoopType.PingPong)
         .setCompletionHandler(t => { 
         if (LifePoints <= 0)
@@ -29,6 +29,5 @@ public class Building : MonoBehaviour {
             Destroy(this.gameObject);
         }
         }).start();
-
     }
 }

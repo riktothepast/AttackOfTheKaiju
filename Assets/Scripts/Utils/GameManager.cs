@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour {
         for (int x = 0; x < maxEnemies; x++)
         {
             Vector2 newPos = GetEmptyPosition(0, board.Columns, board.Rows-2, board.Rows);
-            board.logicMap[(int)newPos.x, (int)newPos.y] = 2;
+            board.logicMap[(int)newPos.x, (int)newPos.y] = 3;
             GameObject enemy = (GameObject)Instantiate(enemies[Random.Range(0, enemies.Count)], new Vector2((int)newPos.x + 0.5f, (int)newPos.y + 0.5f), transform.rotation);
             enemies.Add(enemy);
         }
@@ -81,76 +81,6 @@ public class GameManager : MonoBehaviour {
         return new Vector2(Mathf.Floor(position.x), Mathf.Floor(position.y));
     }
 
-    public bool CanPlayerMoveThere(int x, int y)
-    {
-        /*
-         * Player can only move one tile this way:
-         *          []
-         *        [] P []
-         *          [] 
-         */
-        if (x < 0 || x > board.Columns || y < 0 || y > board.Rows)
-            return false;
-        if (board.logicMap[x, y] != 0)
-            return false;
-
-        if (Mathf.Floor(player.transform.position.y) == y)
-        {
-            if (Mathf.Floor(player.transform.position.x) + 1 == x)
-            { 
-                return true;
-            }else if (Mathf.Floor(player.transform.position.x) - 1 == x)
-            {
-                return true;
-            }
-        }
-        else if (Mathf.Floor(player.transform.position.x) == x)
-        {
-            if (Mathf.Floor(player.transform.position.y) + 1 == y)
-            {
-                return true;
-            }
-            else if (Mathf.Floor(player.transform.position.y) - 1 == y)
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public bool CanPlayerAttackThere(int x, int y)
-    {
-        if (x < 0 || x > board.Columns || y < 0 || y > board.Rows)
-            return false;
-        if (board.logicMap[x, y] == 0)
-            return false;
-
-        if (Mathf.Floor(player.transform.position.y) == y)
-        {
-            if (Mathf.Floor(player.transform.position.x) + 1 == x)
-            {
-                return true;
-            }
-            else if (Mathf.Floor(player.transform.position.x) - 1 == x)
-            {
-                return true;
-            }
-        }
-        else if (Mathf.Floor(player.transform.position.x) == x)
-        {
-            if (Mathf.Floor(player.transform.position.y) + 1 == y)
-            {
-                return true;
-            }
-            else if (Mathf.Floor(player.transform.position.y) - 1 == y)
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
 
     public void AttackItem(int posX, int posY)
     {

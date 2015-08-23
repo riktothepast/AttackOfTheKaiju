@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Prime31.ZestKit;
+using Game.TileMapping.Unity;
 
 public class PlayerScript : MonoBehaviour {
     public float movementSpeed;
@@ -10,11 +11,14 @@ public class PlayerScript : MonoBehaviour {
     public bool canMove = true;
     Animator anim;
     GameManager manager;
+    TileMap board;
 
     void Start()
     {
         anim = GetComponent<Animator>();
         manager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+        board = GameObject.FindGameObjectWithTag("Map").GetComponent<TileMap>();
+
     }
 
     void Update()
@@ -68,13 +72,85 @@ public class PlayerScript : MonoBehaviour {
     public void AttackTween(int dir)
     {
         if(dir ==0)
-            transform.ZKpositionTo(transform.position + new Vector3(0, Random.Range(-0.5f, 0.5f), 0), 0.1f)
+            transform.ZKpositionTo(transform.position + new Vector3(0, Random.Range(Random.Range(-0.5f, -0.3f), Random.Range(0.3f, 0.5f)), 0), 0.1f)
                 .setLoops(LoopType.PingPong)
                 .start();
 
         if (dir == 1)
-            transform.ZKpositionTo(transform.position + new Vector3(Random.Range(-0.5f, 0.5f), 0,0), 0.1f)
+            transform.ZKpositionTo(transform.position + new Vector3(Random.Range(Random.Range(-0.5f, -0.3f), Random.Range(0.3f, 0.5f)), 0, 0), 0.1f)
                 .setLoops(LoopType.PingPong)
                 .start();
+    }
+
+    public bool CanPlayerAttackThere(int x, int y)
+    {
+        if (x < 0 || x > board.Columns || y < 0 || y > board.Rows)
+            return false;
+        if (board.logicMap[x, y] == 0)
+            return false;
+
+        if (Mathf.Floor(transform.position.y) == y)
+        {
+            if (Mathf.Floor(transform.position.x) + 1 == x)
+            {
+                return true;
+            }
+            else if (Mathf.Floor(transform.position.x) - 1 == x)
+            {
+                return true;
+            }
+        }
+        else if (Mathf.Floor(transform.position.x) == x)
+        {
+            if (Mathf.Floor(transform.position.y) + 1 == y)
+            {
+                return true;
+            }
+            else if (Mathf.Floor(transform.position.y) - 1 == y)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public bool CanPlayerMoveThere(int x, int y)
+    {
+        /*
+         * Player can only move one tile this way:
+         *          []
+         *        [] P []
+         *          [] 
+         */
+        if (x < 0 || x > board.Columns || y < 0 || y > board.Rows)
+            return false;
+        if (board.logicMap[x, y] != 0)
+            return false;
+
+        if (Mathf.Floor(transform.position.y) == y)
+        {
+            if (Mathf.Floor(transform.position.x) + 1 == x)
+            {
+                return true;
+            }
+            else if (Mathf.Floor(transform.position.x) - 1 == x)
+            {
+                return true;
+            }
+        }
+        else if (Mathf.Floor(transform.position.x) == x)
+        {
+            if (Mathf.Floor(transform.position.y) + 1 == y)
+            {
+                return true;
+            }
+            else if (Mathf.Floor(transform.position.y) - 1 == y)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
