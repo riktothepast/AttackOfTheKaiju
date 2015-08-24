@@ -12,4 +12,9 @@ public class PageChange : MonoBehaviour {
             Application.LoadLevel(PageToChange);
         }
 	}
+
+    public void ChangePage()
+    {
+        Application.LoadLevel(PageToChange);
+    }
 }

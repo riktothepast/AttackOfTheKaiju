@@ -5,12 +5,14 @@ using Game.TileMapping.Unity;
 public class EnemyScript : MonoBehaviour
 {
     public float movementSpeed;
+    public int lifePoints;
     public int damage;
     public Vector2 whereToMove;
     public bool shouldMove;
     public bool canMove = true;
     public PlayerScript Player;
     public TileMap board;
+    public GameManager manager;
 
     // Use this for initialization
     public virtual void Start()
@@ -40,5 +42,10 @@ public class EnemyScript : MonoBehaviour
             canMove = true;
             transform.position = whereToMove;
         }
+    }
+
+    public virtual void DoDamage(int val)
+    {
+        lifePoints -= val;
     }
 }

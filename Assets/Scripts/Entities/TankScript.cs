@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using Game.TileMapping.Unity;
+using Prime31.ZestKit;
+
 
 public class TankScript : EnemyScript {
     bool shouldSearchWhereToMove = false;
@@ -12,6 +14,7 @@ public class TankScript : EnemyScript {
     {
         board = GameObject.FindGameObjectWithTag("Map").GetComponent<TileMap>();
         Player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerScript>();
+        manager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
 	}
 
     public override void ActivateUpdate()
@@ -118,5 +121,24 @@ public class TankScript : EnemyScript {
             }
         }
         return posibleDestinations;
+    }
+
+    public override void DoDamage(int val)
+    {
+        base.DoDamage(val);
+        if(lifePoints<=0)
+        {
+            transform.ZKpositionTo(transform.position + new Vector3(Random.Range(Random.Range(-0.5f, -0.3f), Random.Range(0.3f, 0.5f)), Random.Range(Random.Range(-0.5f, -0.3f), Random.Range(0.3f, 0.5f)), 0), 0.1f)
+            .setLoops(LoopType.PingPong)
+            .setCompletionHandler(t =>
+            {
+                if (lifePoints <= 0)
+                {
+                    manager.UpdateEnemyCount(this.gameObject);
+                    GameObject.FindGameObjectWithTag("Map").GetComponent<TileMap>().logicMap[(int)Mathf.Floor(transform.position.x), (int)Mathf.Floor(transform.position.y)] = 0;
+                    Destroy(this.gameObject);
+                }
+            }).start();
+        }
     }
 }

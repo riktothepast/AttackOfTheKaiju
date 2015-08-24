@@ -12,9 +12,10 @@ public class GameManager : MonoBehaviour {
     public List<GameObject> buildings;
     public List<GameObject> enemies;
     public GameObject playerToSpawn;
+    public GameObject guardian;
     PlayerScript player;
     public Text buildingsText, enemiesText;
-    int builingCount;
+    int builingCount, enemyCount;
     public Canvas gameOver, gameWin;
 	// Use this for initialization
 	void Start () {
@@ -56,6 +57,19 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    void GenerateGuardian()
+    {
+        List<Vector2> levelCorners = new List<Vector2>();
+        levelCorners.Add(new Vector2(0, 0));
+        levelCorners.Add(new Vector2(0, board.Rows-1));
+        levelCorners.Add(new Vector2(board.Columns-1, 0));
+        levelCorners.Add(new Vector2(board.Columns-1, board.Rows-1));
+        Vector2 newPos = levelCorners[Random.Range(0, levelCorners.Count)];
+        board.logicMap[(int)newPos.x, (int)newPos.y] = 3;
+        GameObject enemy = (GameObject)Instantiate(guardian, new Vector2((int)newPos.x + 0.5f, (int)newPos.y + 0.5f), transform.rotation);
+        enemies.Add(enemy);
+    }
+
     Vector2 GetEmptyPosition(int initialX, int finalX, int initialY, int finalY)
     {
         int newPosX = Random.Range(initialX, finalX);
@@ -90,17 +104,38 @@ public class GameManager : MonoBehaviour {
                 break;
             }
         }
+        for (int x = 0; x < enemies.Count; x++)
+        {
+            if ((int)Mathf.Floor(enemies[x].transform.position.x) == (int)posX && (int)Mathf.Floor(enemies[x].transform.position.y) == (int)posY)
+            {
+                enemies[x].GetComponent<EnemyScript>().DoDamage(player.damage);
+                SetToUpdateEntities();
+                break;
+            }
+        }
     }
 
     public void UpdateBuildingCount(GameObject obj)
     {
         builingCount++;
+        if (builingCount == buidingsToDestroy - 5)
+        {
+            GenerateGuardian();
+        }
         buildings.Remove(obj);
         buildingsText.text = "Buildings: \n" + builingCount.ToString("D2");
         if (builingCount >= buidingsToDestroy)
         {
             GameWon();
         }
+    }
+
+    public void UpdateEnemyCount(GameObject obj)
+    {
+        enemyCount++;
+        enemies.Remove(obj);
+        enemiesText.text = "Enemies: \n" + enemyCount.ToString("D2");
+   
     }
 
     public void GameOver()
