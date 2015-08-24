@@ -18,7 +18,7 @@ public class TouchScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (pScript.canMove)
+        if (pScript.canMove&&pScript.lifePoints>0)
         {
             if (Input.GetMouseButtonDown(0))
             {
@@ -45,22 +45,22 @@ public class TouchScript : MonoBehaviour {
                 }
                 return;
             }
-            if (Input.GetKey(KeyCode.UpArrow))
+            if (Input.GetKey(KeyCode.UpArrow) && pScript.canMove)
             {
                 if (pScript.CanPlayerMoveThere((int)Mathf.Floor(transform.position.x), (int)Mathf.Floor(transform.position.y) + 1))
                     pScript.SetToMove(new Vector2((transform.position.x), (transform.position.y) + 1));
             }
-            else if (Input.GetKey(KeyCode.DownArrow))
+            else if (Input.GetKey(KeyCode.DownArrow) && pScript.canMove)
             {
                 if (pScript.CanPlayerMoveThere((int)Mathf.Floor(transform.position.x), (int)Mathf.Floor(transform.position.y) - 1))
                     pScript.SetToMove(new Vector2((transform.position.x), (transform.position.y) - 1));
             }
-            else if (Input.GetKey(KeyCode.LeftArrow))
+            else if (Input.GetKey(KeyCode.LeftArrow)&&pScript.canMove)
             {
                 if (pScript.CanPlayerMoveThere((int)Mathf.Floor(transform.position.x) - 1, (int)Mathf.Floor(transform.position.y)))
                     pScript.SetToMove(new Vector2((transform.position.x) - 1, (transform.position.y)));
             }
-            else if (Input.GetKey(KeyCode.RightArrow))
+            else if (Input.GetKey(KeyCode.RightArrow) && pScript.canMove)
             {
                 if (pScript.CanPlayerMoveThere((int)Mathf.Floor(transform.position.x) + 1, (int)Mathf.Floor(transform.position.y)))
                     pScript.SetToMove(new Vector2((transform.position.x) + 1, (transform.position.y)));

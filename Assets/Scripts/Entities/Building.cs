@@ -9,6 +9,7 @@ public class Building : MonoBehaviour {
     public GameObject damageSprite;
     public int LifePoints = 2;
     GameManager manager;
+    bool isShaking = false;
 	// Use this for initialization
 	void Start () {
         manager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
@@ -17,7 +18,10 @@ public class Building : MonoBehaviour {
 
     public void DoDamage(int val)
     {
+        if (isShaking)
+            return;
         LifePoints -= val;
+        isShaking = true;
         transform.ZKpositionTo(transform.position + new Vector3(Random.Range(Random.Range(-0.5f, -0.3f), Random.Range(0.3f, 0.5f)), Random.Range(Random.Range(-0.5f, -0.3f), Random.Range(0.3f, 0.5f)), 0), 0.1f)
         .setLoops(LoopType.PingPong)
         .setCompletionHandler(t => { 
@@ -28,6 +32,9 @@ public class Building : MonoBehaviour {
             Instantiate(damageSprite,transform.position,transform.rotation);
             Destroy(this.gameObject);
         }
+        isShaking = false;
         }).start();
     }
+
+    
 }

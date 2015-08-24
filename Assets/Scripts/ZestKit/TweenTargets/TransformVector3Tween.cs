@@ -31,7 +31,10 @@ namespace Prime31.ZestKit
 			// if the babysitter is enabled and we dont validate just silently do nothing
 			if( ZestKit.enableBabysitter && !_transform )
 				return;
-			
+
+            if (_transform == null)
+                return;
+
 			switch( _targetType )
 			{
 				case TransformTargetType.Position:

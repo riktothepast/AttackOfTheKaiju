@@ -5,7 +5,7 @@ using Game.TileMapping.Unity;
 
 public class TankScript : EnemyScript {
     bool shouldSearchWhereToMove = false;
-    public GameObject tankTurret;
+    public TankTurrent tankTurret;
 
 	// Use this for initialization
 	public override void Start () 
@@ -23,19 +23,32 @@ public class TankScript : EnemyScript {
     {
         if (shouldSearchWhereToMove && !shouldMove)
         {
-            Debug.Log("im a updating tank");
             shouldSearchWhereToMove = false;
             List<Vector2> posibleDestinations = WhereCanIGo();
             if (posibleDestinations.Count > 0)
             {
                 board.logicMap[(int)transform.position.x, (int)transform.position.y] = 0;
-                whereToMove = posibleDestinations[Random.Range(0, posibleDestinations.Count)];
+                float distance = Vector2.Distance(Player.transform.position, transform.position);
+                bool foundSmaller = false;
+                for (int x = 0; x < posibleDestinations.Count; x++)
+                {
+                    if (Vector2.Distance(Player.transform.position, posibleDestinations[x]) <= distance)
+                    {
+                        whereToMove = posibleDestinations[x];
+                        foundSmaller = true;
+                    }
+                }
+                if(!foundSmaller)
+                    whereToMove = posibleDestinations[Random.Range(0, posibleDestinations.Count)];
                 board.logicMap[(int)whereToMove.x, (int)whereToMove.y] = 3;
                 shouldMove = true;
             }
         }
         if (shouldMove)
+        {
             UpdatePosition();
+        }
+
     }
 
     public override void UpdatePosition()
@@ -48,6 +61,7 @@ public class TankScript : EnemyScript {
             shouldMove = false;
             canMove = true;
             transform.position = whereToMove;
+            tankTurret.RotateTurret();
         }
     }
 

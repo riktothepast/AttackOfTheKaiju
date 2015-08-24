@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour {
     PlayerScript player;
     public Text buildingsText, enemiesText;
     int builingCount;
+    public Canvas gameOver, gameWin;
 	// Use this for initialization
 	void Start () {
         board = GameObject.FindGameObjectWithTag("Map").GetComponent<TileMap>();
@@ -23,10 +24,6 @@ public class GameManager : MonoBehaviour {
         SpawnPlayer();
 	}
 	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 
     public void SetToUpdateEntities()
     {
@@ -52,7 +49,7 @@ public class GameManager : MonoBehaviour {
     {
         for (int x = 0; x < maxEnemies; x++)
         {
-            Vector2 newPos = GetEmptyPosition(0, board.Columns, board.Rows-2, board.Rows);
+            Vector2 newPos = GetEmptyPosition(0, board.Columns, board.Rows/2, board.Rows);
             board.logicMap[(int)newPos.x, (int)newPos.y] = 3;
             GameObject enemy = (GameObject)Instantiate(enemies[Random.Range(0, enemies.Count)], new Vector2((int)newPos.x + 0.5f, (int)newPos.y + 0.5f), transform.rotation);
             enemies.Add(enemy);
@@ -100,6 +97,22 @@ public class GameManager : MonoBehaviour {
         builingCount++;
         buildings.Remove(obj);
         buildingsText.text = "Buildings: \n" + builingCount.ToString("D2");
+        if (builingCount >= buidingsToDestroy)
+        {
+            GameWon();
+        }
+    }
+
+    public void GameOver()
+    {
+        gameOver.GetComponent<Canvas>().enabled = true;
+        Debug.Log("game is over");
+    }
+
+    public void GameWon()
+    {
+        gameWin.GetComponent<Canvas>().enabled = true;
+        Debug.Log("game is over");
     }
 
 }
